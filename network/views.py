@@ -16,8 +16,8 @@ def new_post(request):
 def add_post(request):
     if request.method == "POST":
         content = request.POST["content"]
-        user = request.user
-        post = Post(user=user, content=content)
+        current_user = request.user
+        post = Post(user=current_user, content=content)
         post.save()
         return HttpResponseRedirect(reverse("index"))
 
