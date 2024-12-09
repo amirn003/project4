@@ -8,7 +8,7 @@ from .models import User, Post
 
 
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().filter().order_by("-date")
     return render(request, "network/index.html", {
         "posts": posts
     })

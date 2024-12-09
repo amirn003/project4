@@ -1,11 +1,13 @@
+
 .container {
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: auto;
+  margin-top: 32px;
   padding: 0 16px;
 }
 
 .card-post {
   margin-bottom: 16px;
+  padding: 1em;
   overflow: hidden;
   height: auto;
   background: white;
