@@ -25,6 +25,15 @@ def add_post(request):
         return HttpResponseRedirect(reverse("index"))
 
 
+def profile(request, username):
+    user = User.objects.get(username=username)
+    posts = Post.objects.all().filter(user=user).order_by("-date")
+    return render(request, "network/profile.html", {
+        "user": user,
+        "posts": posts
+    })
+
+
 def login_view(request):
     if request.method == "POST":
 
