@@ -1,9 +1,23 @@
 {% extends "network/layout.html" %}
 {% load static %}
 {% block body %}
+
   <h2>Profile Page: {{ user }}</h2>
-
-
+  <div class="container">
+    <p class="follower-content">Followers: 0 | Following: 0</p>
+    <h3>Posts</h3>
+    {% for post in posts %}
+      <div class="card-post">
+        <h3><a href="{% url 'profile' post.user %}">{{post.user}}</a></h3>
+        <p>
+          {{ post.content }}
+        </p>
+        <i>{{post.date}}</i>
+        <p>❤️ 0</p>
+        <p><i>Comment</i></p>
+      </div>
+    {% endfor %}
+  </div>
 
 
 {% endblock %}

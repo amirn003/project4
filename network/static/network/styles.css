@@ -32,5 +32,10 @@
 }
 
 .card-post .card-post-infos {
-  padding: 16px;
+  padding: 24px;
+}
+
+.follower-content {
+  padding-right: 50%;
+  font-size: 18px;
 }
