@@ -28,16 +28,13 @@ def add_post(request):
 def profile(request, username):
     user = User.objects.get(username=username)
     posts = Post.objects.all().filter(user=user).order_by("-date")
-    is_following = False
-    if request.user.is_authenticated:
-        is_following = request.user.following.filter(id=user.id).exists()
+    current_user_id = request.user.id
+    is_following = request.user.following.filter(id=current_user_id).exists()
     return render(request, "network/profile.html", {
         "user": user,
         "posts": posts,
         "is_following": is_following
     })
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
 
 
 def login_view(request):
