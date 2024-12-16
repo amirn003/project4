@@ -43,6 +43,17 @@ def profile(request, username):
         "current_user": current_user
     })
 
+def follow(request, username):
+    user = User.objects.get(username=username)
+    current_user = request.user
+    current_user_id = current_user.id
+    is_following = current_user.following.filter(id=current_user_id).exists()
+    if is_following:
+        current_user.following.remove(user)
+    else:
+        current_user.following.add(user)
+    return HttpResponseRedirect(reverse("profile", args=(username,)))
+
 
 def login_view(request):
     if request.method == "POST":
