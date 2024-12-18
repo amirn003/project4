@@ -15,7 +15,7 @@
     {% endif %}
     <h2>Profile Page: {{ user }}</h2>
     <!-- <p>{{ authenticated }}</p> -->
-    <p class="follower-content">Followers: 0 | Following: 0</p>
+    <p class="follower-content">Followers: {{ followers }} | Following: {{ following }}</p>
     <h3>Posts</h3>
     {% for post in posts %}
       <div class="card-post">

@@ -28,6 +28,8 @@ def add_post(request):
 def profile(request, username):
     user = User.objects.get(username=username)
     posts = Post.objects.all().filter(user=user).order_by("-date")
+    following = user.following.all().count()
+    followers = user.followers.all().count()
     current_user = request.user
     is_following = False
     authenticated = False
@@ -40,7 +42,9 @@ def profile(request, username):
         "posts": posts,
         "is_following": is_following,
         "authenticated": authenticated,
-        "current_user": current_user
+        "current_user": current_user,
+        "following": following,
+        "followers": followers
     })
 
 def follow(request, username):
