@@ -28,10 +28,15 @@ def add_post(request):
 def profile(request, username):
     user_profile = User.objects.get(username=username)
     posts = Post.objects.all().filter(user=user_profile).order_by("-date")
-    following = user_profile.following.all().count()
-    followers = user_profile.followers.all().count()
+    # followers = user_profile.followers.all().count()
+    followers = Follow.objects.filter(user=user_profile.id).count()
+
+
     current_user = request.user
     current_user_id = request.user.id
+
+    # following = user_profile.following.all().count()
+    following = Follow.objects.filter(following=user_profile.id).count()
 
     if request.user.is_authenticated:
         is_following = Follow.objects.filter(user=user_profile, following=current_user).exists()
@@ -51,10 +56,12 @@ def follow(request, username):
     current_user = request.user
     current_user_object = User.objects.get(id=current_user.id)
     current_user_id = current_user.id
-    is_following = current_user.following.filter(id=current_user_id).exists()
+    is_following = Follow.objects.filter(user=user, following=current_user).exists()
     if is_following:
-        current_user_object.following.remove(user)
-        return HttpResponse(f"<h1> UnFollow user: {user} </h1> ({current_user_object.following})")
+        unfollow = Follow.objects.get(user=user.id, following=current_user.id)
+        unfollow.delete()
+        # current_user_object.following.remove(user)
+        # return HttpResponse(f"<h1> UnFollow user: {user} </h1> ({current_user_object.following})")
     else:
         # current_user_object.following.add(user)
         follow = Follow(user= user, following= current_user_object)
