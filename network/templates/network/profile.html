@@ -7,9 +7,9 @@
     {% if user.is_authenticated and user != user_profile %}
       <div class="button-left">
         {% if is_following %}
-          <button class="btn btn-primary" id="unfollow-btn" action="{% url 'follow' user_profile %}">Unfollow</button>
+          <a class="btn btn-primary" id="unfollow-btn" href="{% url 'follow' user_profile %}">Unfollow</a>
         {% else %}
-          <button class="btn btn-primary" id="follow-btn" action="">Follow</button>
+          <a class="btn btn-primary" id="follow-btn" href="{% url 'follow' user_profile %}">Follow</a>
         {% endif %}
       </div>
     {% endif %}
