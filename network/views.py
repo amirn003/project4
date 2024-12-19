@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Post
+from .models import User, Post, Follow
 
 
 def index(request):
@@ -31,11 +31,12 @@ def profile(request, username):
     following = user_profile.following.all().count()
     followers = user_profile.followers.all().count()
     current_user = request.user
-    is_following = False
+    current_user_id = request.user.id
+    # is_following = current_user.following.filter(id=current_user_id).exists()
+    is_following = Follow.objects.filter(user=user_profile, following=current_user).exists()
     authenticated = False
     if request.user.is_authenticated:
-        current_user_id = request.user.id
-        is_following = request.user.following.filter(id=current_user_id).exists()
+        is_following = Follow.objects.filter(user=user_profile, following=current_user).exists()
         authenticated = True
     return render(request, "network/profile.html", {
         "user_profile": user_profile,
@@ -51,14 +52,19 @@ def profile(request, username):
 def follow(request, username):
     user = User.objects.get(username=username)
     current_user = request.user
+    current_user_object = User.objects.get(id=current_user.id)
     current_user_id = current_user.id
     is_following = current_user.following.filter(id=current_user_id).exists()
-    return HttpResponse("<h1>Follow Page</h1>")
-    # if is_following:
-    #     current_user.following.remove(user)
-    # else:
-    #     current_user.following.add(user)
-    # return HttpResponseRedirect(reverse("profile", args=(username,)))
+    if is_following:
+        current_user_object.following.remove(user)
+        return HttpResponse(f"<h1> UnFollow user: {user} </h1> ({current_user_object.following})")
+    else:
+        # current_user_object.following.add(user)
+        follow = Follow(user= user, following= current_user_object)
+        follow.save()
+        # return HttpResponse(f"<h1> Follow user: {user} </h1> ({current_user_object.following})")
+
+    return HttpResponseRedirect(reverse("profile", args=(username,)))
 
 
 def login_view(request):
