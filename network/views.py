@@ -32,17 +32,14 @@ def profile(request, username):
     followers = user_profile.followers.all().count()
     current_user = request.user
     current_user_id = request.user.id
-    # is_following = current_user.following.filter(id=current_user_id).exists()
-    is_following = Follow.objects.filter(user=user_profile, following=current_user).exists()
-    authenticated = False
+
     if request.user.is_authenticated:
         is_following = Follow.objects.filter(user=user_profile, following=current_user).exists()
-        authenticated = True
+
     return render(request, "network/profile.html", {
         "user_profile": user_profile,
         "posts": posts,
         "is_following": is_following,
-        "authenticated": authenticated,
         "current_user": current_user,
         "following": following,
         "followers": followers
