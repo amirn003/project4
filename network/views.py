@@ -26,10 +26,10 @@ def add_post(request):
 
 
 def profile(request, username):
-    user = User.objects.get(username=username)
-    posts = Post.objects.all().filter(user=user).order_by("-date")
-    following = user.following.all().count()
-    followers = user.followers.all().count()
+    user_profile = User.objects.get(username=username)
+    posts = Post.objects.all().filter(user=user_profile).order_by("-date")
+    following = user_profile.following.all().count()
+    followers = user_profile.followers.all().count()
     current_user = request.user
     is_following = False
     authenticated = False
@@ -38,7 +38,7 @@ def profile(request, username):
         is_following = request.user.following.filter(id=current_user_id).exists()
         authenticated = True
     return render(request, "network/profile.html", {
-        "user": user,
+        "user_profile": user_profile,
         "posts": posts,
         "is_following": is_following,
         "authenticated": authenticated,
@@ -46,6 +46,7 @@ def profile(request, username):
         "following": following,
         "followers": followers
     })
+
 
 def follow(request, username):
     user = User.objects.get(username=username)
