@@ -3,7 +3,7 @@
 {% block body %}
   <h2>View Following Posts</h2>
   <div class="container">
-      {% for post in posts %}
+      {% for post in posts_following %}
         <div class="card-post">
           <h3><a href="{% url 'profile' post.user %}">{{post.user}}</a></h3>
           <p>

@@ -74,9 +74,13 @@ def following(request):
     current_user = request.user
     current_user_id = request.user.id
     posts = Post.objects.all().filter().order_by("-date")
-    posts.filter(user__following__user=current_user_id)
+    posts_following = []
+    for post in posts:
+        if Follow.objects.filter(user=post.user, following=current_user).exists():
+            posts_following.append(post)
+
     return render(request, "network/following.html", {
-        "posts": posts
+        "posts_following": posts_following
     })
 
 def login_view(request):
