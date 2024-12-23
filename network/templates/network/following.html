@@ -1,0 +1,22 @@
+{% extends "network/layout.html" %}
+{% load static %}
+{% block body %}
+  <h2>View Following Posts</h2>
+  <div class="container">
+      {% for post in posts %}
+        <div class="card-post">
+          <h3><a href="{% url 'profile' post.user %}">{{post.user}}</a></h3>
+          <p>
+            {{ post.content }}
+          </p>
+          <i>{{post.date}}</i>
+          <p>❤️ 0</p>
+          <p><i>Comment</i></p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+
+
+{% endblock %}

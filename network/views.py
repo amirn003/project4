@@ -70,6 +70,14 @@ def follow(request, username):
 
     return HttpResponseRedirect(reverse("profile", args=(username,)))
 
+def following(request):
+    current_user = request.user
+    current_user_id = request.user.id
+    posts = Post.objects.all().filter().order_by("-date")
+    posts.filter(user__following__user=current_user_id)
+    return render(request, "network/following.html", {
+        "posts": posts
+    })
 
 def login_view(request):
     if request.method == "POST":
