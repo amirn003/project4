@@ -12,8 +12,7 @@ def index(request):
     posts = Post.objects.all().filter().order_by("-date")
     posts = Paginator(posts, 10)
     page_number = request.GET.get('page')
-    posts = posts.get_page(page_number
-    )
+    posts = posts.get_page(page_number)
 
     return render(request, "network/index.html", {
         "posts": posts
@@ -37,6 +36,9 @@ def profile(request, username):
     # followers = user_profile.followers.all().count()
     followers = Follow.objects.filter(user=user_profile.id).count()
 
+    posts = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    posts = posts.get_page(page_number)
 
     current_user = request.user
     current_user_id = request.user.id
@@ -80,6 +82,11 @@ def following(request):
     current_user = request.user
     current_user_id = request.user.id
     posts = Post.objects.all().filter().order_by("-date")
+
+    posts = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    posts = posts.get_page(page_number)
+
     posts_following = []
     for post in posts:
         if Follow.objects.filter(user=post.user, following=current_user).exists():
