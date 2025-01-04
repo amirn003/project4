@@ -98,8 +98,11 @@ def following(request):
 
 def edit_post(request, post_id):
     post = Post.objects.get(id=post_id)
+    current_user_id = request.user.id
+    print("Current User Id: ", current_user_id)
     return render(request, "network/edit_post.html", {
-        "post": post
+        "post": post,
+        "current_user_id": current_user_id
     })
 
 

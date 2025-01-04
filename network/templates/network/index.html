@@ -6,6 +6,10 @@
       {% for post in posts %}
         <div class="card-post">
           <h3><a href="{% url 'profile' post.user %}">{{post.user}}</a></h3>
+          <!-- <p>{{ post.user.id }}</p>
+          <p>{{ current_user_id }}</p> -->
+
+          <a href="{% url 'edit_post' post.id %}">Edit Post</a>
 
           <p>
             {{ post.content }}
@@ -13,7 +17,7 @@
           <i>{{post.date}}</i>
           <p>❤️ 0</p>
           <p><i>Comment</i></p>
-          <a href="{% url 'edit_post' post.id %}">Edit Post</a>
+
 
         </div>
       {% endfor %}

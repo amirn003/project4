@@ -3,6 +3,7 @@
 {% block body %}
   <h2>Edit Post</h2>
   <div class="container">
+    <h3>{{post.user}}</h3>
     <form method="post">
       {% csrf_token %}
       <div class="form-group">
