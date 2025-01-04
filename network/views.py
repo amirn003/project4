@@ -96,6 +96,13 @@ def following(request):
         "posts_following": posts_following
     })
 
+def edit_post(request, post_id):
+    post = Post.objects.get(id=post_id)
+    return render(request, "network/edit_post.html", {
+        "post": post
+    })
+
+
 def login_view(request):
     if request.method == "POST":
 

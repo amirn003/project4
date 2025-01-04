@@ -1,0 +1,12 @@
+{% extends "network/layout.html" %}
+{% load static %}
+{% block body %}
+  <h2>Edit Post</h2>
+  <div class="container">
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <textarea class="form-control" name="content" rows="3">{{ post.content }}</textarea>
+      </div>
+
+{% endblock %}
