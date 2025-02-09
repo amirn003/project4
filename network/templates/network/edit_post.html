@@ -4,7 +4,7 @@
   <h2>Edit Post</h2>
   <div class="container">
     <h3>{{post.user}}</h3>
-    <form method="post">
+    <form id="edit-post-form" method="post">
       {% csrf_token %}
       <div class="form-group">
         <textarea class="form-control" name="content" rows="3">{{ post.content }}</textarea>
@@ -13,5 +13,39 @@
     </form>
   </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('#edit-post-form').onsubmit = function(event) {
+        event.preventDefault();
+
+        const content = document.querySelector('textarea[name="content"]').value;
+        console.log(content);
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const postId = "{{ post.id }}";
+        console.log(postId);
+
+        fetch(`/edit_post/${postId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+          },
+          body: JSON.stringify({
+            content: content
+          })
+        })
+        .then(response => response.json())
+        .then(result => {
+          // Handle the response
+          console.log(result);
+          if (result.success) {
+            window.location.href = '/';
+          } else {
+            alert('Error saving post');
+          }
+        });
+      };
+    });
+  </script>
 
 {% endblock %}
