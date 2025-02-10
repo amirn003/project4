@@ -104,13 +104,16 @@ def edit_post(request, post_id):
     post = Post.objects.get(id=post_id)
     current_user_id = request.user.id
     print("Current User Id: ", current_user_id)
-    return render(request, "network/edit_post.html", {
-        "post": post,
-        "current_user_id": current_user_id
-    })
+    if request.user != Post.objects.get(id=post_id).user:
+        return HttpResponse(f"<h1> Current user: {request.user} not allowed to modify this post</h1>")
+    else:
+        return render(request, "network/edit_post.html", {
+            "post": post,
+            "current_user_id": current_user_id
+        })
 
 def update_post(request, post_id):
-    if request.method == "POST" and request.user.id == Post.objects.get(id=post_id).user.id:
+    if request.method == "POST":
         try:
             data = json.loads(request.body)
             content = data.get("content", "")
