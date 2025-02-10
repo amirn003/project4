@@ -15,9 +15,11 @@ def index(request):
     posts = Paginator(posts, 10)
     page_number = request.GET.get('page')
     posts = posts.get_page(page_number)
+    current_user = request.user
 
     return render(request, "network/index.html", {
-        "posts": posts
+        "posts": posts,
+        "current_user": current_user
     })
 
 def new_post(request):
@@ -108,7 +110,7 @@ def edit_post(request, post_id):
     })
 
 def update_post(request, post_id):
-    if request.method == "POST":
+    if request.method == "POST" and request.user.id == Post.objects.get(id=post_id).user.id:
         try:
             data = json.loads(request.body)
             content = data.get("content", "")

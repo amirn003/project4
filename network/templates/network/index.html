@@ -8,8 +8,9 @@
           <h3><a href="{% url 'profile' post.user %}">{{post.user}}</a></h3>
           <!-- <p>{{ post.user.id }}</p>
           <p>{{ current_user_id }}</p> -->
-
-          <a href="{% url 'edit_post' post.id %}">Edit Post</a>
+          {% if post.user == current_user %}
+            <a href="{% url 'edit_post' post.id %}">Edit Post</a>
+          {% endif %}
 
           <p>
             {{ post.content }}
