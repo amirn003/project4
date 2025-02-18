@@ -131,10 +131,17 @@ def like(request, post_id):
 
     current_user = request.user
     is_liked = post.likes.filter(id=current_user.id).exists()
+
     if is_liked:
         post.likes.remove(current_user)
+        post.like -= 1
+        post.save()
+        print("Unlike")
     else:
         post.likes.add(current_user)
+        post.like += 1
+        post.save()
+        print("Like")
     return HttpResponseRedirect(reverse("index"))
 
 
