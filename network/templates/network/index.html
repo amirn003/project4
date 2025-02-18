@@ -16,7 +16,7 @@
             {{ post.content }}
           </p>
           <i>{{post.date}}</i>
-          <p>❤️ 0</p>
+          <a href="{% url 'like' post.id %}"><p>❤️ 0</p></a>
           <p><i>Comment</i></p>
 
 

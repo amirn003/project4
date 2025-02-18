@@ -20,3 +20,7 @@ class Comment(models.Model):
 class Follow(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="following")
     following = models.ForeignKey("User", on_delete=models.CASCADE, related_name="followers")
+
+class Like(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="user_likes")
+    post = models.ForeignKey("Post", on_delete=models.CASCADE, related_name="post_likes")

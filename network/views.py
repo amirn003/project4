@@ -126,7 +126,16 @@ def update_post(request, post_id):
     else:
         return JsonResponse({"success": False, "error": "Invalid request method"})
 
+def like(request, post_id):
+    post = Post.objects.get(id=post_id)
 
+    current_user = request.user
+    is_liked = post.likes.filter(id=current_user.id).exists()
+    if is_liked:
+        post.likes.remove(current_user)
+    else:
+        post.likes.add(current_user)
+    return HttpResponseRedirect(reverse("index"))
 
 
 def login_view(request):
