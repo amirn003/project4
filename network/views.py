@@ -30,6 +30,7 @@ def add_post(request):
         content = request.POST["content"]
         current_user = request.user
         post = Post(user=current_user, content=content)
+        post.like = 0
         post.save()
         return HttpResponseRedirect(reverse("index"))
 
